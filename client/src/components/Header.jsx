@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Navbar, NavbarLink, NavbarCollapse } from "flowbite-react";
+import { Button } from "@heroui/button";
+import { Navbar, NavbarLink, NavbarCollapse } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { RiSparkling2Line } from "react-icons/ri";
 
@@ -17,9 +18,9 @@ export default function Header() {
         </Link>
       </div>
       <div className="flex flex-row gap-10 text-sm font-semibold text-gray-600">
-      <Link to="/">Features</Link>
-      <Link to="/">Topics</Link>
-      <Link to="/">Pricing</Link>
+        <Link to="/">Features</Link>
+        <Link to="/">Topics</Link>
+        <Link to="/">Pricing</Link>
       </div>
       <div className="flex flex-row gap-2">
         <Link to="/sign-in">
@@ -30,13 +31,15 @@ export default function Header() {
             Log In
           </Button>
         </Link>
-        <Button
-          className="text-white hover:cursor-pointer bg-[#2e8261] hover:bg-[#297355] gap-1"
-          pill
-        >
-          <RiSparkling2Line />
-          Get started
-        </Button>
+        <Link to="/sign-up">
+          <Button
+            className="text-white hover:cursor-pointer bg-[#2e8261] hover:bg-[#297355] gap-1"
+            pill
+          >
+            <RiSparkling2Line />
+            Get started
+          </Button>
+        </Link>
       </div>
     </Navbar>
   );
