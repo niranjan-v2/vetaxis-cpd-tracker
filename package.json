@@ -1,0 +1,26 @@
+{
+  "name": "vetaxis-cpd-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niranjan-v2/vetaxis-cpd-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/niranjan-v2/vetaxis-cpd-tracker/issues"
+  },
+  "homepage": "https://github.com/niranjan-v2/vetaxis-cpd-tracker#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
