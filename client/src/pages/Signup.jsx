@@ -1,8 +1,3 @@
-// CreateAccount.jsx
-// HeroUI (React JSX) — front-end only
-// Assumes HeroUI components are available from: @heroui/react
-// Logo path: /axisvet.svg
-
 import React, { useState } from "react";
 import {
   Card,
@@ -82,7 +77,7 @@ export default function Signup() {
     { key: "Prof", label: "Prof" },
     { key: "Mrs", label: "Mrs" },
     { key: "Miss", label: "Miss" },
-    { key: "Master", label: "Master" },
+    { key: "Mstr", label: "Mstr" },
     { key: "Mx", label: "Mx" },
   ];
 
@@ -108,7 +103,7 @@ export default function Signup() {
                 Create your account
               </h1>
               <p className="mt-2 text-sm text-slate-600">
-                Track CPD, discover learning, and keep your compliance tidy.
+                Discover learning, track CPD and keep your compliance tidy.
               </p>
             </div>
 
@@ -128,7 +123,7 @@ export default function Signup() {
                 />
                 <div className="flex flex-row gap-2">
                   <Select
-                    className="w-20"
+                    className="w-28"
                     defaultSelectedKeys={["Dr"]}
                     label="Title"
                   >
