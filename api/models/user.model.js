@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 const registrationSchema = new Schema(
   {
-    board:      { type: String, required: true },
-    regNumber:  { type: String, required: true },
+    board:      { type: String, required: false },
+    regNumber:  { type: String, required: false },
     verified:   { type: Boolean, default: false },
     verifiedAt: { type: Date },
   },
