@@ -73,28 +73,46 @@ export const EyeFilledIcon = (props) => {
 export default function Signup() {
   const [formData, setFormData] = useState({ title: "Dr" });
   const [isVisible, setIsVisible] = useState(false);
+  // CHANGED: added error and loading state
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleChange = (e) => {
-    const updated = { ...formData, [e.target.id]: e.target.value };
+    const updated = { ...formData, [e.target.id]: e.target.value.trim() };
     setFormData(updated);
   };
 
-  const handleSubmit = async(e) => {
+  // CHANGED: full handleSubmit with validation, error handling, loading state
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
+    // CHANGED: client-side password match check
+    if (formData.password !== formData.retypePassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
     try {
-      console.log(formData);
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-    } catch(error) {
-
+      if (!res.ok) {
+        setError(data.message || "Something went wrong.");
+        return;
+      }
+      // TODO: redirect to login or dashboard on success
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    
   };
 
   const titles = [
@@ -212,6 +230,7 @@ export default function Signup() {
                     onChange={handleChange}
                   />
 
+                  {/* CHANGED: added id and onChange to retype password field */}
                   <Input
                     isRequired
                     label="Retype Password"
@@ -221,30 +240,23 @@ export default function Signup() {
                       inputWrapper:
                         "rounded-2xl border-slate-200 bg-white hover:border-slate-300",
                     }}
+                    id="retypePassword"
+                    onChange={handleChange}
                   />
 
                   <div className="space-y-3">
                     <Checkbox className="items-start" isRequired>
                       <span className="text-sm text-slate-700">
                         I agree to the{" "}
-                        <Link
-                          href="/terms"
-                          className="text-slate-900 underline"
-                        >
+                        <Link href="/terms" className="text-slate-900 underline">
                           Terms
                         </Link>
                         ,{" "}
-                        <Link
-                          href="/privacy"
-                          className="text-slate-900 underline"
-                        >
+                        <Link href="/privacy" className="text-slate-900 underline">
                           Privacy Policy
                         </Link>{" "}
                         and{" "}
-                        <Link
-                          href="/cookies"
-                          className="text-slate-900 underline"
-                        >
+                        <Link href="/cookies" className="text-slate-900 underline">
                           Cookies
                         </Link>
                         .
@@ -258,10 +270,20 @@ export default function Signup() {
                     </Checkbox>
                   </div>
 
+                  {/* CHANGED: error banner shown above submit button */}
+                  {error && (
+                    <div className="rounded-2xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
+                      {error}
+                    </div>
+                  )}
+
+                  {/* CHANGED: isLoading and isDisabled wired to loading state */}
                   <Button
                     type="submit"
                     color="primary"
                     className="h-12 rounded-2xl font-semibold"
+                    isLoading={loading}
+                    isDisabled={loading}
                   >
                     Continue
                   </Button>
