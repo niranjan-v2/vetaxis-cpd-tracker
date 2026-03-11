@@ -582,7 +582,7 @@ export default function Login() {
           <div className="login-footer">
             <span className="footer-text">Don't have an account?</span>
             <Link
-              href="/signup"
+              href="/sign-up"
               className="text-sm font-semibold text-slate-800"
             >
               Create one →
