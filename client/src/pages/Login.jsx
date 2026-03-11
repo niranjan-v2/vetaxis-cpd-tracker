@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Input, Button, Link } from "@heroui/react";
+import { useNavigate } from "react-router-dom";
 
 export const EyeSlashFilledIcon = (props) => (
   <svg
@@ -96,7 +97,7 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleChange = (e) => {
@@ -111,20 +112,23 @@ export default function Login() {
       setError("Username and password are required.");
       return;
     }
-
-    setLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
+      setLoading(true);
+      setError(null);
+      const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Invalid email or password.");
-        return;
+      if (data.success === false) {
+        return setError(data.message);
       }
-      // TODO: store token, redirect to dashboard
+      setLoading(false);
+      if(res.ok) {
+        // TODO: store token, redirect to dashboard
+        navigate('/');
+      }
     } catch (err) {
       setError("Network error. Please try again.");
     } finally {
@@ -510,7 +514,7 @@ export default function Login() {
             <div className="login-fields">
               <div>
                 <label className="field-label" htmlFor="email">
-                  Username or Email 
+                  Username or Email
                 </label>
                 <Input
                   id="email"
