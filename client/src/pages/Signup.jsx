@@ -292,7 +292,7 @@ export default function Signup() {
                     <span className="text-sm text-slate-600">
                       Already have an account?
                     </span>
-                    <Link href="/login" className="text-sm font-semibold">
+                    <Link href="/sign-in" className="text-sm font-semibold">
                       Log in
                     </Link>
                   </div>
