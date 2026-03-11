@@ -108,7 +108,7 @@ export default function Login() {
     setError(null);
 
     if (!formData.email || !formData.password) {
-      setError("Email and password are required.");
+      setError("Username and password are required.");
       return;
     }
 
@@ -510,12 +510,12 @@ export default function Login() {
             <div className="login-fields">
               <div>
                 <label className="field-label" htmlFor="email">
-                  Email address
+                  Username or Email 
                 </label>
                 <Input
                   id="email"
-                  type="email"
-                  placeholder="Your Email"
+                  type="text"
+                  placeholder="Your username"
                   variant="bordered"
                   onChange={handleChange}
                   classNames={{
