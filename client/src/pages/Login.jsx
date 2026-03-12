@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input, Button, Link } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 export const EyeSlashFilledIcon = (props) => (
   <svg
@@ -99,8 +103,12 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {loading, error: error} = useSelector(state => state.user);
+  const { loading, error: error } = useSelector((state) => state.user);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  useEffect(() => {
+    dispatch(signInFailure(null));
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -123,14 +131,14 @@ export default function Login() {
       if (data.success === false) {
         dispatch(signInFailure(data.message));
       }
-      if(res.ok) {
+      if (res.ok) {
         dispatch(signInSuccess(data));
         // TODO: store token, redirect to dashboard
-        navigate('/');
+        navigate("/");
       }
     } catch (err) {
-        dispatch(signInFailure(err.message));
-    } 
+      dispatch(signInFailure(err.message));
+    }
   };
 
   return (
