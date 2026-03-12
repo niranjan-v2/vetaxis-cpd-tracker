@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Input, Button, Link } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 
 export const EyeSlashFilledIcon = (props) => (
   <svg
@@ -95,9 +97,9 @@ const PawPrint = ({
 export default function Login() {
   const [formData, setFormData] = useState({});
   const [isVisible, setIsVisible] = useState(false);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {loading, error: error} = useSelector(state => state.user);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleChange = (e) => {
@@ -106,15 +108,12 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     if (!formData.email || !formData.password) {
-      setError("Username and password are required.");
-      return;
+      return dispatch(signInFailure("Username and password are required"));
     }
     try {
-      setLoading(true);
-      setError(null);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -122,18 +121,16 @@ export default function Login() {
       });
       const data = await res.json();
       if (data.success === false) {
-        return setError(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setLoading(false);
       if(res.ok) {
+        dispatch(signInSuccess(data));
         // TODO: store token, redirect to dashboard
         navigate('/');
       }
     } catch (err) {
-      setError("Network error. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+        dispatch(signInFailure(err.message));
+    } 
   };
 
   return (
