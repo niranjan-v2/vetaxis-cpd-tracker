@@ -73,7 +73,6 @@ export const EyeFilledIcon = (props) => {
 export default function Signup() {
   const [formData, setFormData] = useState({ title: "Dr" });
   const [isVisible, setIsVisible] = useState(false);
-  // CHANGED: added error and loading state
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -84,14 +83,17 @@ export default function Signup() {
     setFormData(updated);
   };
 
-  // CHANGED: full handleSubmit with validation, error handling, loading state
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
-    // CHANGED: client-side password match check
     if (formData.password !== formData.retypePassword) {
       setError("Passwords do not match.");
+      return;
+    }
+
+    if(formData.fullName.trim().split().length < 2) {
+      setError("Please enter your full name.");
       return;
     }
 
@@ -230,7 +232,6 @@ export default function Signup() {
                     onChange={handleChange}
                   />
 
-                  {/* CHANGED: added id and onChange to retype password field */}
                   <Input
                     isRequired
                     label="Retype Password"
