@@ -1,5 +1,5 @@
 import express from 'express';
-import { signout, test } from '../controllers/user.controller.js';
+import { signout, test, completeOnboarding } from '../controllers/user.controller.js';
 import { verify } from 'crypto';
 import { verifyToken } from '../middleware/auth.middleware.js';
 
