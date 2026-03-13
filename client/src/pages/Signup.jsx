@@ -9,6 +9,13 @@ import {
   Select,
   SelectItem,
 } from "@heroui/react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 export const EyeSlashFilledIcon = (props) => {
   return (
@@ -71,10 +78,11 @@ export const EyeFilledIcon = (props) => {
 };
 
 export default function Signup() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({ title: "Dr" });
   const [isVisible, setIsVisible] = useState(false);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -85,19 +93,18 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     if (formData.password !== formData.retypePassword) {
-      setError("Passwords do not match.");
+      dispatch(signInFailure("Passwords do not match."));
       return;
     }
 
-    if(formData.fullName.trim().split().length < 2) {
-      setError("Please enter your full name.");
+    if (formData.fullName?.trim().split(" ").length < 2) {
+      dispatch(signInFailure("Please enter your full name."));
       return;
     }
 
-    setLoading(true);
+    dispatch(signInStart());
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
@@ -106,14 +113,13 @@ export default function Signup() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.message || "Something went wrong.");
+        dispatch(signInFailure(data.message || "Something went wrong."));
         return;
       }
-      // TODO: redirect to login or dashboard on success
+      dispatch(signInSuccess(data));
+      navigate("/onboarding");
     } catch (err) {
-      setError("Network error. Please try again.");
-    } finally {
-      setLoading(false);
+      dispatch(signInFailure("Network error. Please try again."));
     }
   };
 
@@ -249,15 +255,24 @@ export default function Signup() {
                     <Checkbox className="items-start" isRequired>
                       <span className="text-sm text-slate-700">
                         I agree to the{" "}
-                        <Link href="/terms" className="text-slate-900 underline">
+                        <Link
+                          href="/terms"
+                          className="text-slate-900 underline"
+                        >
                           Terms
                         </Link>
                         ,{" "}
-                        <Link href="/privacy" className="text-slate-900 underline">
+                        <Link
+                          href="/privacy"
+                          className="text-slate-900 underline"
+                        >
                           Privacy Policy
                         </Link>{" "}
                         and{" "}
-                        <Link href="/cookies" className="text-slate-900 underline">
+                        <Link
+                          href="/cookies"
+                          className="text-slate-900 underline"
+                        >
                           Cookies
                         </Link>
                         .

@@ -46,7 +46,7 @@ export const signup = async (req, res, next) => {
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1m",
+      expiresIn: "10m",
     });
     const { passwordHash: pass, ...rest } = newUser._doc;
     res
@@ -82,7 +82,7 @@ export const signin = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: "10m",
     });
 
     const { passwordHash: pass, ...rest } = validUser._doc;
