@@ -29,7 +29,9 @@ export default function Onboarding() {
 
   const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
-    navigate("/sign-up");
+    if (!currentUser) {
+      navigate("/sign-up");
+    }
   }, [currentUser]);
 
   const [formData, setFormData] = useState({
