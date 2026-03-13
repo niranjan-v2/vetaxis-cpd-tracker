@@ -92,7 +92,7 @@ export default function Signup() {
       return;
     }
 
-    if(formData.fullName.trim().split().length < 2) {
+    if(formData.fullName.trim().split(" ").length < 2) {
       setError("Please enter your full name.");
       return;
     }
