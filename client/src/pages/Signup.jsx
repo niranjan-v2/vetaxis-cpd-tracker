@@ -9,6 +9,7 @@ import {
   Select,
   SelectItem,
 } from "@heroui/react";
+import { useNavigate } from "react-router-dom";
 
 export const EyeSlashFilledIcon = (props) => {
   return (
@@ -71,6 +72,7 @@ export const EyeFilledIcon = (props) => {
 };
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ title: "Dr" });
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState(null);
@@ -109,7 +111,7 @@ export default function Signup() {
         setError(data.message || "Something went wrong.");
         return;
       }
-      // TODO: redirect to login or dashboard on success
+      navigate("/onboarding");
     } catch (err) {
       setError("Network error. Please try again.");
     } finally {
