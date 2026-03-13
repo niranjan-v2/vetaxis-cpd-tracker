@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/user/userSlice";
 import { REGULATORY_BODIES } from "../../../api/config/regulatoryBodies.js";
+import { fetchWithAuth } from "../utils/fetchWithAuth.js";
 
 const PROFESSIONS = [
   { key: "veterinarian", label: "Veterinarian" },
@@ -56,7 +57,7 @@ export default function Onboarding() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/user/onboarding", {
+      const res = await fetchWithAuth("/api/user/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

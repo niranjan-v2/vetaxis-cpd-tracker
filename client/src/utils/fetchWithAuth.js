@@ -1,5 +1,5 @@
 import { store } from "../redux/store.js";
-import { signOut } from "../redux/user/userSlice.js";
+import { signOutSuccess } from "../redux/user/userSlice.js";
 import { persister } from "../redux/store.js";
 
 export const fetchWithAuth = async (url, options = {}) => {
@@ -9,7 +9,7 @@ export const fetchWithAuth = async (url, options = {}) => {
   });
 
   if (res.status === 401 || res.status === 403) {
-    store.dispatch(signOut());
+    store.dispatch(signOutSuccess());
     await persister.purge();
     window.location.href = "/sign-in";
   }
