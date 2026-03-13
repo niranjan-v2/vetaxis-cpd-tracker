@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, CardBody, Select, SelectItem, Button } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/user/userSlice";
 import { REGULATORY_BODIES } from "../../../api/config/regulatoryBodies.js";
 
@@ -28,11 +28,6 @@ export default function Onboarding() {
   const navigate = useNavigate();
 
   const { currentUser } = useSelector((state) => state.user);
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/sign-up");
-    }
-  }, [currentUser]);
 
   const [formData, setFormData] = useState({
     profession: "",
