@@ -27,8 +27,6 @@ const AU_STATES = [
 export default function Onboarding() {
   const navigate = useNavigate();
 
-  const { currentUser } = useSelector((state) => state.user);
-
   const [formData, setFormData] = useState({
     profession: "",
     country: "",
