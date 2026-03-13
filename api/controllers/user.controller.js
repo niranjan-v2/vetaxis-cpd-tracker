@@ -43,3 +43,7 @@ export const completeOnboarding = async (req, res, next) => {
     next(error);
   }
 };
+
+export const test = (req, res) => {
+  res.json({ message: "API is working" });
+};
