@@ -80,7 +80,7 @@ export default function Header() {
                 <Button
                   size="sm"
                   radius="full"
-                  className="bg-[#010143] text-white font-semibold gap-1.5 hover:bg-[#0a0a6e] transition-colors"
+                  className="bg-[rgb(5,38,125)] text-white font-semibold gap-1.5"
                   startContent={<RiSparkling2Line className="text-sm" />}
                 >
                   Upgrade to AxisVet™ Pro
