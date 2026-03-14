@@ -133,8 +133,7 @@ export default function Login() {
       }
       if (res.ok) {
         dispatch(signInSuccess(data));
-        // TODO: store token, redirect to dashboard
-        navigate("/");
+        navigate(data.cpd ? "/dashboard" : "/onboarding");
       }
     } catch (err) {
       dispatch(signInFailure(err.message));
