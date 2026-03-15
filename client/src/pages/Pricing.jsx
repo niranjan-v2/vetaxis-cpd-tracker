@@ -169,7 +169,7 @@ export default function Pricing() {
               <p className="font-lora text-[1.45rem] font-semibold text-[#010143] mb-1 tracking-[0.01em]">
                 {plan.namePrefix && (
                   <span className="font-normal text-[#46484d]">
-                    {plan.namePrefix}{" "}
+                    {plan.namePrefix}{" "}                                         
                   </span>
                 )}
                 {plan.name}
