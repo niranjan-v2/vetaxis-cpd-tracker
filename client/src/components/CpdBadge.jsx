@@ -58,7 +58,7 @@ export default function CpdBadge({ points, size = "md", showLabel = true }) {
         <span className={`${textSize[size]} font-semibold text-[#010143]`}>
           {points ?? 0}
           <span className={`${subTextSize[size]} font-normal text-gray-400 ml-1`}>
-            hrs
+            pts
           </span>
         </span>
       )}
