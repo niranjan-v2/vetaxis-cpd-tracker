@@ -19,6 +19,7 @@ import { LuPencilLine } from "react-icons/lu";
 import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "../redux/user/userSlice";
 import { persistor } from "../redux/store";
+import CpdBadge from "./CpdBadge";
 
 function getInitials(fullName) {
   if (!fullName) return "?";
@@ -59,6 +60,12 @@ export default function Header() {
       <Link to="/" className="flex items-center">
         <img src="/axisvet.svg" alt="AxisVet" className="h-7 sm:h-8" />
       </Link>
+
+      {currentUser?.cpd && (
+        <div className="border border-transparent hover:border-gray-200 hover:bg-gray-50 rounded-full px-3 py-1.5 transition-colors">
+          <CpdBadge points={currentUser.cpd.earnedPoints} />
+        </div>
+      )}
 
       {/* Nav links — public only */}
       {!currentUser && (
@@ -166,7 +173,10 @@ export default function Header() {
                           )}
                         </div>
                         <p className="text-xs text-gray-400 mt-0.5">
-                          {"@"+currentUser.username+" | "+currentUser.email}
+                          {"@" +
+                            currentUser.username +
+                            " | " +
+                            currentUser.email}
                         </p>
                       </div>
                     </div>
