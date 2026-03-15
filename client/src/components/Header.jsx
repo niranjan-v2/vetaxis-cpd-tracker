@@ -55,7 +55,6 @@ export default function Header() {
 
   return (
     <Navbar className="border-b border-gray-100 px-6 py-3">
-
       {/* Logo */}
       <Link to="/" className="flex items-center">
         <img src="/axisvet.svg" alt="AxisVet" className="h-7 sm:h-8" />
@@ -64,9 +63,15 @@ export default function Header() {
       {/* Nav links — public only */}
       {!currentUser && (
         <div className="hidden md:flex flex-row gap-8 text-sm font-medium text-gray-600">
-          <Link to="/" className="hover:text-[#010143] transition-colors">Features</Link>
-          <Link to="/" className="hover:text-[#010143] transition-colors">Topics</Link>
-          <Link to="/" className="hover:text-[#010143] transition-colors">Pricing</Link>
+          <Link to="/" className="hover:text-[#010143] transition-colors">
+            Features
+          </Link>
+          <Link to="/" className="hover:text-[#010143] transition-colors">
+            Topics
+          </Link>
+          <Link to="/" className="hover:text-[#010143] transition-colors">
+            Pricing
+          </Link>
         </div>
       )}
 
@@ -74,7 +79,7 @@ export default function Header() {
       <div className="flex flex-row gap-3 items-center">
         {currentUser ? (
           <>
-            {/* Upgrade button — brand navy, full radius */}
+            {/* Upgrade button */}
             {!isPro && (
               <Link to="/upgrade">
                 <Button
@@ -88,11 +93,14 @@ export default function Header() {
               </Link>
             )}
 
-            {/* Avatar trigger */}
+            {/* Avatar + Dropdown */}
             <Dropdown
+              placement="bottom-end"
               radius="lg"
               shadow="lg"
-              classNames={{ content: "p-0 w-72 overflow-hidden border border-gray-100" }}
+              classNames={{
+                content: "p-0 w-72 overflow-hidden border border-gray-100",
+              }}
             >
               <DropdownTrigger>
                 <Avatar
@@ -116,7 +124,7 @@ export default function Header() {
                     "gap-3",
                     "data-[hover=true]:bg-gray-50",
                   ],
-                  title: "text-sm font-medium text-gray-800",
+                  title: "text-sm font-medium",
                   startContent: "text-gray-500 text-xl flex-shrink-0",
                 }}
               >
@@ -139,7 +147,9 @@ export default function Header() {
                       <div className="text-center">
                         <div className="flex items-center justify-center gap-2">
                           <p className="text-base font-bold text-[#010143]">
-                            {currentUser.profile.title+" "+currentUser.profile?.fullName}
+                            {currentUser.profile?.title +
+                              " " +
+                              currentUser.profile?.fullName}
                           </p>
                           {isPro && (
                             <Chip
@@ -147,7 +157,8 @@ export default function Header() {
                               variant="flat"
                               classNames={{
                                 base: "bg-amber-50 border border-amber-200",
-                                content: "text-xs font-semibold text-amber-600 px-1",
+                                content:
+                                  "text-xs font-semibold text-amber-600 px-1",
                               }}
                             >
                               Pro
@@ -155,7 +166,7 @@ export default function Header() {
                           )}
                         </div>
                         <p className="text-xs text-gray-400 mt-0.5">
-                          Account Email: {currentUser.email}
+                          {"@"+currentUser.username+" | "+currentUser.email}
                         </p>
                       </div>
                     </div>
@@ -168,10 +179,12 @@ export default function Header() {
                     <DropdownItem
                       key="upgrade"
                       textValue="upgrade"
-                      startContent={<RiSparkling2Line className="text-[#010143] text-xl flex-shrink-0" />}
+                      startContent={
+                        <RiSparkling2Line className="text-[rgb(5,38,125)] text-xl flex-shrink-0" />
+                      }
                       classNames={{
                         base: "bg-slate-50 data-[hover=true]:bg-slate-100 px-5",
-                        title: "text-sm font-bold text-[#010143]",
+                        title: "text-sm font-bold text-[rgb(5,38,125)]",
                       }}
                     >
                       Upgrade to AxisVet™ Pro
@@ -183,33 +196,30 @@ export default function Header() {
                 <DropdownSection showDivider classNames={{ divider: "my-0" }}>
                   <DropdownItem
                     key="settings"
-                    className="text-2xl"
                     startContent={<IoSettingsOutline />}
                   >
                     Account settings
                   </DropdownItem>
-                  <DropdownItem
-                    className="text-2xl"
-                    key="help"
-                    startContent={<GoQuestion />}
-                  >
+                  <DropdownItem key="help" startContent={<GoQuestion />}>
                     Help
                   </DropdownItem>
+                  {/* CHANGED: removed classNames override, color="danger" handles red styling */}
                   <DropdownItem
-                    className="text-2xl"
                     key="signout"
-                    startContent={<PiSignOutBold />}
+                    startContent={
+                      <PiSignOutBold className="text-red-500 text-xl flex-shrink-0" />
+                    }
+                    classNames={{
+                      title: "text-sm font-medium text-red-500",
+                    }}
                   >
-                    Log out
+                    Sign out
                   </DropdownItem>
                 </DropdownSection>
 
                 {/* Feedback */}
                 <DropdownSection showDivider classNames={{ divider: "my-0" }}>
-                  <DropdownItem
-                    key="feedback"
-                    startContent={<LuPencilLine />}
-                  >
+                  <DropdownItem key="feedback" startContent={<LuPencilLine />}>
                     Share feedback
                   </DropdownItem>
                 </DropdownSection>
@@ -224,14 +234,22 @@ export default function Header() {
                   >
                     <div className="flex flex-col items-center gap-1">
                       <div className="flex gap-5 text-xs text-gray-400">
-                        <Link to="/terms" className="hover:text-gray-600 hover:underline transition-colors">
+                        <Link
+                          to="/terms"
+                          className="hover:text-gray-600 hover:underline transition-colors"
+                        >
                           Terms and Conditions
                         </Link>
-                        <Link to="/privacy" className="hover:text-gray-600 hover:underline transition-colors">
+                        <Link
+                          to="/privacy"
+                          className="hover:text-gray-600 hover:underline transition-colors"
+                        >
                           Privacy Policy
                         </Link>
                       </div>
-                      <p className="text-xs text-gray-300">© 2025 AxisVet Pty Ltd</p>
+                      <p className="text-xs text-gray-300">
+                        © 2025 AxisVet Pty Ltd
+                      </p>
                     </div>
                   </DropdownItem>
                 </DropdownSection>
