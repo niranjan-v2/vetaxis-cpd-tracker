@@ -55,6 +55,7 @@ const userSchema = new Schema(
     lastLoginAt: { type: Date },
     profile:     profileSchema,
     cpd:         cpdSchema,
+    isPro: { type: Boolean, default: false },
   },
   { timestamps: true },
 );
