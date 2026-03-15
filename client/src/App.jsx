@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
+import Pricing from "./pages/Pricing";
 
 export default function App() {
   const {currentUser} = useSelector((state) => state.user);
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/" element={currentUser ? <Dashboard /> : <Home />} />
         <Route path="/sign-in" element={<Login />} />
         <Route path="/sign-up" element={<Signup />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/onboarding" element={<Onboarding />} />

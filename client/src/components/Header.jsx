@@ -48,7 +48,7 @@ export default function Header() {
   const handleDropdownAction = (key) => {
     if (key === "signout") handleSignOut();
     else if (key === "settings") navigate("/profile");
-    else if (key === "upgrade") navigate("/upgrade");
+    else if (key === "upgrade") navigate("/pricing");
     else if (key === "help") navigate("/help");
     else if (key === "feedback") navigate("/feedback");
   };
@@ -81,7 +81,7 @@ export default function Header() {
           <>
             {/* Upgrade button */}
             {!isPro && (
-              <Link to="/upgrade">
+              <Link to="/pricing">
                 <Button
                   size="sm"
                   radius="full"
