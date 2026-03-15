@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { CpdShield } from "./CpdBadge";
+import {FiShield} from "react-icons/fi";
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -27,7 +28,7 @@ function getMonthsRemaining(periodEnd) {
   const months = Math.max(
     0,
     (end.getFullYear() - now.getFullYear()) * 12 +
-      (end.getMonth() - now.getMonth())
+      (end.getMonth() - now.getMonth()),
   );
   return months;
 }
@@ -38,16 +39,14 @@ export default function GreetingCard() {
   const greeting = useMemo(() => getGreeting(), []);
 
   const title = currentUser?.profile?.title ?? "";
-  const firstName = currentUser?.profile?.fullName?.trim().split(" ")[0] ?? "";
+  const lastName = currentUser?.profile?.fullName?.trim().split(" ")[1] ?? "";
   const board = currentUser?.profile?.registration?.board ?? null;
   const cpd = currentUser?.cpd;
 
   const earnedPoints = cpd?.earnedPoints ?? 0;
   const requiredPoints = cpd?.requiredPoints ?? 0;
   const percent =
-    requiredPoints > 0
-      ? Math.round((earnedPoints / requiredPoints) * 100)
-      : 0;
+    requiredPoints > 0 ? Math.round((earnedPoints / requiredPoints) * 100) : 0;
   const monthsRemaining = getMonthsRemaining(cpd?.periodEnd);
   const progressMessage = getProgressMessage(percent);
 
@@ -156,30 +155,28 @@ export default function GreetingCard() {
       <div className="greeting-card">
         <div>
           <h1 className="greeting-heading">
-            {greeting}, {title === 'Dr' ? title+'. ' : ''} {firstName}{" "}
+            {greeting}, {title === "Dr" ? title + ". " : ""} {lastName}{" "}
             <span className="greeting-heading-muted">
               — here's your CPD snapshot
             </span>
           </h1>
 
           <p className="greeting-subtitle">
-            You're {percent}% through your annual requirement.{" "}
-            {progressMessage}
+            You're {percent}% through your annual requirement. {progressMessage}
           </p>
         </div>
 
         {board && (
           <div className="greeting-board">
-            <span className="greeting-board-icon">
-              <CpdShield size="sm" />
+            <span className="text-green-600">
+                <FiShield />
             </span>
             <div className="greeting-board-text">
               Registered with <strong>{board}</strong>
               {monthsRemaining !== null && (
                 <>
                   {" "}
-                  &middot; Renewal in{" "}
-                  <strong>{monthsRemaining} months</strong>
+                  &middot; Renewal in <strong>{monthsRemaining} months</strong>
                 </>
               )}
             </div>
