@@ -61,6 +61,21 @@ export default function Header() {
         <img src="/axisvet.svg" alt="AxisVet" className="h-7 sm:h-8" />
       </Link>
 
+      {/* Nav links — authenticated users only */}
+      {currentUser && (
+        <div className="hidden md:flex flex-row gap-8 text-sm font-medium text-gray-600">
+          <Link
+            to="/courses"
+            className="hover:text-[#010143] transition-colors"
+          >
+            Learn
+          </Link>
+          <Link to="/quiz" className="hover:text-[#010143] transition-colors">
+            Quiz
+          </Link>
+        </div>
+      )}
+
       {currentUser?.cpd && (
         <div className="border border-transparent hover:border-gray-200 hover:bg-gray-50 rounded-full px-3 py-1.5 transition-colors">
           <CpdBadge points={currentUser.cpd.earnedPoints} />
