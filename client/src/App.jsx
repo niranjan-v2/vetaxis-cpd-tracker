@@ -9,6 +9,8 @@ import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import Pricing from "./pages/Pricing";
+import GenerateQuiz from './pages/GenerateQuiz';
+import QuizSession from './pages/QuizSession';
 
 export default function App() {
   const {currentUser} = useSelector((state) => state.user);
@@ -23,6 +25,8 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/quiz" element={<GenerateQuiz />} />
+          <Route path="/quiz/session" element={<QuizSession />} />
         </Route>
       </Routes>
     </BrowserRouter>
