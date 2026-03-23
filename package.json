@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/niranjan-v2/vetaxis-cpd-tracker#readme",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.3.1",

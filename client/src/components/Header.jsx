@@ -188,10 +188,10 @@ export default function Header() {
                           )}
                         </div>
                         <p className="text-xs text-gray-400 mt-0.5">
-                          {"@" +
-                            currentUser.username +
-                            " | " +
-                            currentUser.email}
+                          {"@" +currentUser.username }
+                        </p>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {currentUser.email}
                         </p>
                       </div>
                     </div>
