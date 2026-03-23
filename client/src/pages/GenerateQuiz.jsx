@@ -1,7 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Select, SelectItem, Button } from "@heroui/react";
+import {
+  Select,
+  SelectItem,
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@heroui/react";
 import { RiSparkling2Line, RiArrowLeftSLine } from "react-icons/ri";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
 import {
@@ -9,9 +19,13 @@ import {
   DIFFICULTIES,
   QUESTION_COUNTS,
 } from "../config/quizTopics";
+import { PiInfo } from "react-icons/pi";
+import { HiCheckCircle, HiXCircle } from "react-icons/hi2";
+import { CpdShield } from "../components/CpdBadge";
 
 export default function GenerateQuiz() {
   const { currentUser } = useSelector((state) => state.user);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
   const profession = currentUser?.profile?.profession ?? "veterinarian";
@@ -652,12 +666,215 @@ export default function GenerateQuiz() {
               </span>
             </div>
 
-            <p className="gq-disclaimer">
+            <div className="gq-disclaimer">
               Quizzes are AI-generated and may occasionally contain
-              inaccuracies. Always verify with authoritative sources.
-            </p>
+              inaccuracies. Always verify with authoritative sources.{" "}
+              <button
+                type="button"
+                onClick={onOpen}
+                style={{
+                  color: "#2e8e61",
+                  fontWeight: 600,
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  fontSize: "inherit",
+                  textDecoration: "underline",
+                }}
+              >
+                How are CPD points calculated?
+              </button>
+            </div>
           </div>
         </div>
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
+          size="lg"
+          scrollBehavior="inside"
+          classNames={{
+            base: "rounded-3xl",
+            header: "border-b border-slate-100 pb-4",
+            body: "py-0",
+            footer: "border-t border-slate-100 pt-4",
+          }}
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader>
+                  <div className="flex items-center gap-3">
+                    <CpdShield size="md" />
+                    <div>
+                      <p className="text-base font-bold text-[#010143]">
+                        How CPD points are calculated
+                      </p>
+                      <p className="text-xs font-normal text-gray-400 mt-0.5">
+                        Time-based model aligned with Australian regulatory
+                        expectations
+                      </p>
+                    </div>
+                  </div>
+                </ModalHeader>
+
+                <ModalBody>
+                  <div className="flex flex-col gap-4 py-4">
+                    {/* Formula */}
+                    {/* How points are earned — user friendly */}
+                    <div>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                        How you earn points
+                      </p>
+                      <div className="flex flex-col gap-2.5">
+                        {[
+                          {
+                            step: "1",
+                            text: "Complete a quiz",
+                            sub: "Answer all questions to the end",
+                          },
+                          {
+                            step: "2",
+                            text: "Time is estimated",
+                            sub: "Based on how many questions and how hard they are",
+                          },
+                          {
+                            step: "3",
+                            text: "Points are awarded",
+                            sub: "Longer, harder quizzes earn more points",
+                          },
+                        ].map(({ step, text, sub }) => (
+                          <div
+                            key={step}
+                            className="flex items-start gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100"
+                          >
+                            <div className="w-7 h-7 rounded-full bg-[#010143] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
+                              {step}
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-[#010143]">
+                                {text}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-0.5">
+                                {sub}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Time & multiplier table */}
+                    <div>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                        Difficulty Settings
+                      </p>
+                      <div className="overflow-hidden rounded-2xl border border-slate-200">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-slate-50 border-b border-slate-200">
+                              {[
+                                "Difficulty",
+                                "Time / question",
+                                "Multiplier",
+                              ].map((h) => (
+                                <th
+                                  key={h}
+                                  className="text-left px-4 py-2.5 text-xs font-semibold text-gray-400 uppercase tracking-wide"
+                                >
+                                  {h}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {[
+                              ["Beginner", "~37 seconds", "×0.75"],
+                              ["Intermediate", "~60 seconds", "×1.0"],
+                              ["Advanced", "~105 seconds", "×1.3"],
+                            ].map(([d, t, m], i) => (
+                              <tr
+                                key={d}
+                                className={`border-b border-slate-100 last:border-0 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/50"}`}
+                              >
+                                <td className="px-4 py-3 font-medium text-[#010143]">
+                                  {d}
+                                </td>
+                                <td className="px-4 py-3 text-gray-500">{t}</td>
+                                <td className="px-4 py-3 text-gray-500">{m}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* Rules */}
+                    <div>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                        Rules
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        {[
+                          {
+                            icon: true,
+                            text: "Minimum 5 minutes required to earn any CPD points",
+                          },
+                          {
+                            icon: true,
+                            text: "Maximum 1.0 CPD point per quiz session",
+                          },
+                          {
+                            icon: false,
+                            text: "Points are not based on your score or correct answers",
+                          },
+                          {
+                            icon: false,
+                            text: "Quizzes under 5 minutes earn no CPD points",
+                          },
+                        ].map(({ icon, text }) => (
+                          <div
+                            key={text}
+                            className="flex items-start gap-2.5 text-sm text-gray-600"
+                          >
+                            {icon ? (
+                              <HiCheckCircle className="text-green-500 text-base flex-shrink-0 mt-0.5" />
+                            ) : (
+                              <HiXCircle className="text-red-400 text-base flex-shrink-0 mt-0.5" />
+                            )}
+                            {text}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Compliance note */}
+                    <div className="bg-amber-50 rounded-2xl border border-amber-200 p-4">
+                      <p className="text-xs font-semibold text-amber-800 mb-1">
+                        Important
+                      </p>
+                      <p className="text-xs text-amber-700 leading-relaxed">
+                        CPD requirements vary by state. Always verify your
+                        specific requirements with your state's veterinary
+                        regulatory board.
+                      </p>
+                    </div>
+                  </div>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button
+                    radius="full"
+                    className="bg-[#010143] text-white font-semibold text-sm"
+                    onPress={onClose}
+                  >
+                    Got it
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </div>
     </>
   );
