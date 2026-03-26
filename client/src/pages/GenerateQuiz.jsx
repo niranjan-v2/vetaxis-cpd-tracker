@@ -37,6 +37,16 @@ export default function GenerateQuiz() {
   const [numQuestions, setNumQuestions] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const {
+    isOpen: isInfoOpen,
+    onOpen: onInfoOpen,
+    onClose: onInfoClose,
+  } = useDisclosure();
+  const {
+    isOpen: isLimitOpen,
+    onOpen: onLimitOpen,
+    onClose: onLimitClose,
+  } = useDisclosure();
 
   const categories = Object.keys(topicMap);
   const topics = category ? (topicMap[category] ?? []) : [];
@@ -71,6 +81,11 @@ export default function GenerateQuiz() {
       });
 
       const data = await res.json();
+
+      if (res.status === 429) {
+        onLimitOpen();
+        return;
+      }
 
       if (!res.ok) {
         setError(data.message || "Failed to generate quiz. Please try again.");
@@ -869,6 +884,84 @@ export default function GenerateQuiz() {
                     onPress={onClose}
                   >
                     Got it
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+        <Modal
+          isOpen={isLimitOpen}
+          onClose={onLimitClose}
+          size="sm"
+          classNames={{
+            base: "rounded-3xl",
+            header: "border-b border-slate-100 pb-4",
+            footer: "border-t border-slate-100 pt-4",
+          }}
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center flex-shrink-0">
+                      <RiSparkling2Line className="text-amber-500 text-lg" />
+                    </div>
+                    <div>
+                      <p className="text-base font-bold text-[#010143]">
+                        Daily limit reached
+                      </p>
+                      <p className="text-xs font-normal text-gray-400 mt-0.5">
+                        Free plan · 3 quizzes per day
+                      </p>
+                    </div>
+                  </div>
+                </ModalHeader>
+
+                <ModalBody>
+                  <div className="py-4 flex flex-col gap-4">
+                    <p className="text-sm text-gray-500 leading-relaxed">
+                      You've used all 3 of your free quizzes for today. Your
+                      limit resets at midnight.
+                    </p>
+                    <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4 flex flex-col gap-2">
+                      {[
+                        "Unlimited quizzes every day",
+                        "All topics and difficulty levels",
+                        "Full CPD tracking and certificates",
+                      ].map((item) => (
+                        <div
+                          key={item}
+                          className="flex items-center gap-2.5 text-sm text-gray-600"
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#2e8e61] flex-shrink-0" />
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button
+                    radius="full"
+                    variant="flat"
+                    className="bg-gray-100 text-[#010143] font-semibold text-sm"
+                    onPress={onClose}
+                  >
+                    Maybe later
+                  </Button>
+                  <Button
+                    radius="full"
+                    className="bg-[rgb(5,38,125)] text-white font-semibold text-sm"
+                    startContent={<RiSparkling2Line />}
+                    onPress={() => {
+                      onClose();
+                      navigate("/pricing");
+                    }}
+                  >
+                    Upgrade to Pro
                   </Button>
                 </ModalFooter>
               </>
