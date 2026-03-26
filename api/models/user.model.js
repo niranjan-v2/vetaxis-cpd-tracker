@@ -17,7 +17,7 @@ const cpdSchema = new Schema(
     periodStart:    { type: Date, required: true },
     periodEnd:      { type: Date, required: true },
     requiredPoints: { type: Number, required: true }, // set by regulatory body per state
-    earnedPoints:   { type: Number, default: 0 }, 
+    earnedPoints:   { type: Number, default: 0, set: (v) => parseFloat(v.toFixed(2)) }, 
     lastUpdated:    { type: Date, default: Date.now },
   },
   { _id: false },
