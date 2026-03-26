@@ -24,7 +24,7 @@ export const generateQuiz = async (req, res, next) => {
     if (todayCount >= 3) {
       return next(
         errorHandler(
-          403,
+          429,
           "You've reached your daily quiz limit. Upgrade to AxisVet™ Pro for unlimited quizzes.",
         ),
       );
