@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Header from "./components/Header";
@@ -18,9 +18,9 @@ export default function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={currentUser ? <Dashboard /> : <Home />} />
-        <Route path="/sign-in" element={<Login />} />
-        <Route path="/sign-up" element={<Signup />} />
+        <Route path="/" element={currentUser ? <Navigate to="/dashboard" replace /> : <Home />} />
+        <Route path="/sign-in" element={currentUser ? <Navigate to="/dashboard" replace /> : <Login />} />
+        <Route path="/sign-up" element={currentUser ? <Navigate to="/dashboard" replace /> : <Signup />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
