@@ -130,15 +130,20 @@ export const submitQuiz = async (req, res, next) => {
 
     // update user's earned CPD points if awarded
     let updatedUser = null;
-    const roundedCpdPoints = parseFloat(cpdPoints.toFixed(2));
     if (awarded && cpdPoints > 0) {
       updatedUser = await User.findByIdAndUpdate(
         req.user.id,
-        {
-          $inc: { "cpd.earnedPoints": roundedCpdPoints },
-          $set: { "cpd.lastUpdated": new Date() },
-        },
-        { new: true },
+        [
+          {
+            $set: {
+              "cpd.earnedPoints": {
+                $round: [{ $add: ["$cpd.earnedPoints", cpdPoints] }, 2],
+              },
+              "cpd.lastUpdated": new Date(),
+            },
+          },
+        ],
+        { returnDocument: "after", updatePipeline: true },
       );
     }
 
