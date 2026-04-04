@@ -73,6 +73,9 @@ export default function Header() {
           <Link to="/quiz" className="hover:text-[#010143] transition-colors">
             Quiz
           </Link>
+          <Link to="/cpd/videos" className="hover:text-[#010143] transition-colors">
+            Watch
+          </Link>
         </div>
       )}
 
