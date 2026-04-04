@@ -82,6 +82,10 @@ export default function Pricing() {
         .font-lora { font-family: 'Lora', serif; }
         .font-source { font-family: 'Source Sans 3', sans-serif; }
 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.font-price { font-family: 'Inter', sans-serif; }
+
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(20px); }
           to   { opacity: 1; transform: translateY(0); }
