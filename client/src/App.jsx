@@ -11,6 +11,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Pricing from "./pages/Pricing";
 import GenerateQuiz from './pages/GenerateQuiz';
 import QuizSession from './pages/QuizSession';
+import AccountSettings from "./pages/AccountSettings";
 
 export default function App() {
   const {currentUser} = useSelector((state) => state.user);
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/quiz" element={<GenerateQuiz />} />
           <Route path="/quiz/session" element={<QuizSession />} />
+          <Route path="/profile" element={<AccountSettings />} />
         </Route>
       </Routes>
     </BrowserRouter>
