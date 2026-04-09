@@ -12,6 +12,7 @@ import Pricing from "./pages/Pricing";
 import GenerateQuiz from './pages/GenerateQuiz';
 import QuizSession from './pages/QuizSession';
 import AccountSettings from "./pages/AccountSettings";
+import Videos from "./pages/Video";
 
 export default function App() {
   const {currentUser} = useSelector((state) => state.user);
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/quiz" element={<GenerateQuiz />} />
           <Route path="/quiz/session" element={<QuizSession />} />
           <Route path="/profile" element={<AccountSettings />} />
+          <Route path="/cpd/videos" element={<Videos />} />
         </Route>
       </Routes>
     </BrowserRouter>
